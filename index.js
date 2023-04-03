@@ -8,26 +8,12 @@ import dalleRoutes from "./routes/dalleRoutes.js";
 
 dotenv.config();
 
-const whitelist = [
-  "https://walle-frontend.vercel.app/",
-  "http://localhost:5173/",
-];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-
 const app = express();
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-app.use("/api/v1/post", cors(corsOptions), postRoutes);
-app.use("/api/v1/dalle", cors(corsOptions), dalleRoutes);
+app.use("/api/v1/post", postRoutes);
+app.use("/api/v1/dalle", dalleRoutes);
 
 app.get("/", async (req, res) => {
   res.status(200).json({
